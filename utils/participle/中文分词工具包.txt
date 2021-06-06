@@ -1,0 +1,117 @@
+常用中文分词工具包
+1. 结巴分词 
+
+网址：https://github.com/fxsjy/jieba
+安装方式：pip install jieba -i https://mirror.tuna.tsinghua.edu.cn/
+使用方式：
+
+（1）只要分词结果，不要词性
+import jieba
+seg_list = jieba.cut("只要分词结果，不要词性")
+for seg_item in seg_list:
+    print(seg_item, end="\t")
+
+（2）需要分词结果和词性
+import jieba.posseg as pseg
+seg_list = pseg.cut("需要分词结果和词性")
+for seg_item in seg_list:
+    print(seg_item.word, end="/")
+    print(seg_item.flag, end="\t")
+
+2. SnowNLP
+
+网址：https://github.com/isnowfy/snownlp
+安装方式：pip install snownlp -i https://pypi.mirrors.ustc.edu.cn/simple/
+使用方式：
+
+（1）只要分词结果，不要词性
+from snownlp import seg
+seg_list = seg.seg("只要分词结果，不要词性")
+for seg_item in seg_list:
+    print(seg_item, end="\t")
+
+（2）需要分词结果和词性
+from snownlp import SnowNLP
+seg_list = SnowNLP("需要分词结果和词性").tags
+for seg_item in seg_list:
+    print(seg_item[0], end="/")
+    print(seg_item[1], end="\t")
+
+3. PKUSeg
+
+网址：https://github.com/lancopku/pkuseg-python
+安装方式：pip install -U pkuseg -i https://pypi.tuna.tsinghua.edu.cn/simple
+使用方式：
+
+（1）只要分词结果，不要词性
+import pkuseg
+seg = pkuseg.pkuseg()
+seg_list = seg.cut("只要分词结果，不要词性")
+for seg_item in seg_list:
+    print(seg_item, end="\t")
+
+（2）需要分词结果和词性
+import pkuseg
+# 根据领域需要有多种模型选择 "default", "medicine", "tourism", "web", "news"
+seg = pkuseg.pkuseg(model_name="default", postag=True)
+seg_list = seg.cut("需要分词结果和词性")
+for seg_item in seg_list:
+    print(seg_item[0], end="/")
+    print(seg_item[1], end="\t")
+
+4. THULAC（THU Lexical Analyzer for Chinese）
+
+网址：https://github.com/thunlp/THULAC-Python
+安装方式：pip install thulac -i https://pypi.tuna.tsinghua.edu.cn/simple
+使用方式：
+
+（1）只要分词结果，不要词性
+import thulac
+seg = thulac.thulac(seg_only=True)
+seg_list = seg.cut("需要分词结果和词性")
+for seg_item in seg_list:
+    print(seg_item[0], end="\t")
+
+（2）需要分词结果和词性
+import thulac
+seg = thulac.thulac(seg_only=False)
+seg_list = seg.cut("需要分词结果和词性")
+for seg_item in seg_list:
+    print(seg_item[0], end="/")
+    print(seg_item[1], end="\t")
+
+5. HanLP
+
+网址：https://github.com/hankcs/HanLP
+安装方式：pip install hanlp -i https://pypi.tuna.tsinghua.edu.cn/simple
+使用方式：
+
+（1）只要分词结果，不要词性
+import hanlp
+# 需要下载分词相关文件，500M 左右
+HanLP = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_BASE_ZH)
+seg_json = HanLP(data="只要分词结果，不要词性", tasks="pos/pku")
+words = seg_json["tok/fine"]
+for word in words:
+    print(word, end="\t")
+
+（2）需要分词结果和词性
+import hanlp
+# 需要下载分词相关文件，500M 左右
+HanLP = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_BASE_ZH)
+seg_json = HanLP(data="需要分词结果和词性", tasks="pos/pku")
+words = seg_json["tok/fine"]
+natures = seg_json["pos/pku"]
+for word, nature in zip(words, natures):
+    print(word, end="/")
+    print(nature, end="\t")
+
+6. BosonNLP
+
+网址：http://static.bosonnlp.com/demo
+使用方式：调用接口访问或 F12 分析网址，使用爬虫技术访问（需要检查三个字段 User-Agent、Referer、Content-Type，记得最后加上延时）
+
+7. Stanford CoreNLP
+
+网址：https://corenlp.run/
+使用方式：F12 分析网址，使用爬虫技术访问（参数 date 是本地访问时间，记得最后加上延时）
